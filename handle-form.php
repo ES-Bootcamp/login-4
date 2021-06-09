@@ -1,6 +1,5 @@
 <?php
-echo $_SERVER['HTTP_REFERER'];
-exit;
+
 session_start();
 
 require 'errors.php';
