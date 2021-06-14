@@ -1,8 +1,8 @@
 <?php 
 session_start(); 
-if(!empty($_SESSION['errors'])) {
-    $errors = $_SESSION['errors'];
-}
+if(isset($_SESSION['current_user'])) header('Location: profile.php');
+if(!empty($_SESSION['errors'])) $errors = $_SESSION['errors'];
+if(!empty($_SESSION['old'])) $old = $_SESSION['old'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,8 +43,13 @@ if(!empty($_SESSION['errors'])) {
 <body>
     <fieldset>
         <legend><h1>Log in to your account</h1></legend>
-        <form action="handle-form.php" method="POST">
-            <input type="text" name="username" placeholder="Username or Email">
+        <form action="src/Auth/login.php" method="POST">
+            <input 
+            type="text" 
+            name="username" 
+            placeholder="Username or Email"
+            value="<?php if(isset($old['username'])) echo $old['username']; ?>"
+            >
             <?php
             if(isset($errors['username'])) {
                 foreach($errors['username'] as $error) {
@@ -68,10 +73,7 @@ if(!empty($_SESSION['errors'])) {
     </fieldset>
 
     <pre><code>
-    <?php 
-        unset($_SESSION['errors']); 
-        session_destroy();
-    ?>
+    <?php session_destroy(); ?>
     </code></pre>
 </body>
 </html>
